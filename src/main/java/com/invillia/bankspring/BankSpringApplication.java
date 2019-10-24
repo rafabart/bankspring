@@ -18,18 +18,26 @@ public class BankSpringApplication {
         PersonService personService = applicationContext.getBean(PersonService.class);
         AccountService accountService = applicationContext.getBean(AccountService.class);
 
-        Person person = new Person("111.222.333-44", "Rafael Marinho");
+        Person person = new Person("111.222.333-44", "Cespedes Bart");
         personService.insert(person);
 
         Account account = new Account(
-                "1425",
-                "654789",
-                5000.00,
+                "111111",
+                "9999",
+                500.00,
+                AccountTipyEnum.CHECKING_ACCOUNT.accountLimit,
                 AccountTipyEnum.CHECKING_ACCOUNT,
                 person
         );
 
         accountService.insert(account);
 
+        if (accountService.withdraw(account, 1100D)) {
+            System.out.println("Saque realizado com sucesso!");
+        } else {
+            System.out.println("Saldo e limites insuficientes!");
+        }
+
+        accountService.deposit(account, 10000D);
     }
 }

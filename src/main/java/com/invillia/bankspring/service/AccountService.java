@@ -15,6 +15,23 @@ public class AccountService {
         this.accountDao = personDao;
     }
 
+    public void deposit(Account account, Double valor) {
+        account.setBalance(account.getBalance() + valor);
+        update(account);
+    }
+
+    public boolean withdraw(Account account, Double valor) {
+
+        if (account.getAccountTipyEnum().type.equals("CHECKING")) {
+            if (!(account.getBalance() - valor < (-1 * account.getLimitAccount()))) {
+                account.setBalance(account.getBalance() - valor);
+                update(account);
+                return true;
+            }
+        }
+        return false;
+    }
+
     public List<Account> findAll() {
         return accountDao.findAll();
     }
